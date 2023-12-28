@@ -37,6 +37,7 @@ CONF_BYPASS_FACTOR = "bypass_factor"
 CONF_BYPASS_STEP = "bypass_step"
 CONF_BYPASS_CORRECTION = "bypass_correction"
 CONF_IS_SUMMER_MODE = "is_summer_mode"
+CONF_FILTER_WEEKS = "filter_weeks"
 
 helper_comfoair_list = [
     CONF_FAN_SUPPLY_AIR_PERCENTAGE,
@@ -61,6 +62,7 @@ helper_comfoair_list = [
     CONF_BYPASS_STEP,
     CONF_BYPASS_CORRECTION,
     CONF_IS_SUMMER_MODE,
+    CONF_FILTER_WEEKS,
 ]
 
 comfoair_sensors_schemas = cv.Schema({
@@ -154,6 +156,10 @@ cv.Optional(CONF_IS_PREHEATING): binary_sensor.binary_sensor_schema(device_class
 cv.Optional(CONF_IS_SUMMER_MODE): binary_sensor.binary_sensor_schema(device_class=DEVICE_CLASS_EMPTY).extend(),
 cv.Optional(CONF_IS_SUPPLY_FAN_ACTIVE): binary_sensor.binary_sensor_schema(device_class=DEVICE_CLASS_EMPTY).extend(),
 cv.Optional(CONF_IS_FILTER_FULL): binary_sensor.binary_sensor_schema(device_class=DEVICE_CLASS_EMPTY).extend(),
+cv.Optional(CONF_FILTER_WEEKS): sensor.sensor_schema(
+    device_class=DEVICE_CLASS_DURATION,
+    accuracy_decimals=0,
+    state_class=STATE_CLASS_MEASUREMENT).extend(),
 })
 
 CONFIG_SCHEMA = cv.All(

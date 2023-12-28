@@ -144,10 +144,13 @@ public:
       case 6:
         get_bypass_control_status_();
         break;
+      case 7:
+        get_filter_weeks_();
+        break;
     }
 
     update_counter_++;
-    if (update_counter_ > 6)
+    if (update_counter_ > 7)
       update_counter_ = 0;
   }
 
@@ -463,6 +466,12 @@ protected:
 
         break;
       }
+      case COMFOAIR_GET_DELAYS_RESPONSE: {
+        if (this->filter_weeks != nullptr) {
+          this->filter_weeks->publish_state(msg[4]);
+        }
+        break;
+      }
     }
   }
 
@@ -528,6 +537,10 @@ protected:
     this->write_command_(COMFOAIR_GET_TEMPERATURES_REQUEST, nullptr, 0);
   }
 
+  void get_filter_weeks_() {
+    ESP_LOGD(TAG, "getting filter weeks");
+    this->write_command_(COMFOAIR_GET_DELAYS_REQUEST, nullptr, 0);
+  }
   uint8_t get_uint8_t_(uint8_t start_index) const {
     return this->data_[COMFOAIR_MSG_HEAD_LENGTH + start_index];
   }
@@ -563,6 +576,7 @@ public:
   sensor::Sensor *bypass_factor{nullptr};
   sensor::Sensor *bypass_step{nullptr};
   sensor::Sensor *bypass_correction{nullptr};
+  sensor::Sensor *filter_weeks{nullptr};
   binary_sensor::BinarySensor *is_bypass_valve_open{nullptr};
   binary_sensor::BinarySensor *is_preheating{nullptr};
   binary_sensor::BinarySensor *is_summer_mode{nullptr};
@@ -591,6 +605,8 @@ public:
   void set_bypass_step(sensor::Sensor *bypass_step) {this->bypass_step = bypass_step; };
   void set_bypass_correction(sensor::Sensor *bypass_correction) {this->bypass_correction = bypass_correction; };
   void set_is_summer_mode(binary_sensor::BinarySensor *is_summer_mode) {this->is_summer_mode = is_summer_mode; };
+  void set_filter_weeks(sensor::Sensor *filter_weeks) {this->filter_weeks =filter_weeks; };
+
 };
 
 }  // namespace comfoair
