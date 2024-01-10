@@ -1,25 +1,30 @@
 # ComfoAir
-Port of ComfoAir protocol to ESPHome.io firmware originally by @wichers modified by @nyxnyx
-to be installed as external_components.
+Port of ComfoAir protocol to ESPHome.io firmware forked from modified firmware by @nyxnyx 
+This fork is created to develop/add sensors such as:
+- Time to filter change
+- Filter time reset button
+- Additional ComfoCool support is planned in the future. But it needs more work and analysis of the protocol.
+
+Also units of some sensors are corected thru yaml file.
 
 Add to your yaml configuration the definition of `external_components`:
 ```
 external_components:
   - source:
       type: git
-      url: https://github.com/nyxnyx/esphome-comfoair
+      url: https://github.com/kasperr169/esphome-comfoair
     components: [comfoair]
 ```
 and than use it:
 ```
 uart:
   id: uart_bus
-  rx_pin: 3
-  tx_pin: 1
   baud_rate: 9600
+  tx_pin: TX #or define by yourself
+  rx_pin: RX #or define by yourself
 
 comfoair:
-  name: "ComfoAir 350"
+  name: "ComfoAir 550"
   uart_id: uart_bus
   fan_supply_air_percentage:
     name: "Fan supply (%)"
@@ -27,8 +32,10 @@ comfoair:
     name: "Fan exhaust (%)"
   fan_speed_supply:
     name: "Supply fan speed"
+    unit_of_measurement: "RPM"
   fan_speed_exhaust:
     name: "Exhaust fan speed"
+    unit_of_measurement: "RPM"
   is_bypass_valve_open:
     name: "Is bypas open?"
   is_preheating:
@@ -47,8 +54,6 @@ comfoair:
     name: "EWT temperature "
   reheating_temperature:
     name: "Reheating temperature"
-  kitchen_hood_temperature:
-    name: "Kitchen hood temperature"
   return_air_level:
     name: "Return level"
   supply_air_level:
@@ -65,6 +70,9 @@ comfoair:
     name: "Bypass correction"
   is_summer_mode:
     name: "Is summer mode?"
+  filter_weeks:
+    name: "Filter weeks"
+    unit_of_measurement: "weeks"
 ```
 
 The sensor defined here is a full list of sensor - if you remove sensor from yaml it will be not monitored.
