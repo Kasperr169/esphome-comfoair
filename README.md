@@ -1,8 +1,8 @@
 # ComfoAir
 Port of ComfoAir protocol to ESPHome.io firmware forked from modified firmware by @nyxnyx 
 This fork is created to develop/add sensors such as:
-- Time to filter change
-- Filter time reset button
+- Time to filter change -> testing
+- Filter time reset button -> not done yet
 - Additional ComfoCool support is planned in the future. But it needs more work and analysis of the protocol.
 
 Also units of some sensors are corected thru yaml file.
